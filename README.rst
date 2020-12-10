@@ -22,6 +22,8 @@ Dependencies
 Installation
 ------------
 
+You can install coplot by using:
+
 $ sudo pip install coplot-master.zip
 
 or
