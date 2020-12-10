@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>coplot.plot_contours &mdash; CoPlot 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="coplot.utils" href="utils.html" />
+    <link rel="prev" title="coplot.plots" href="plots.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> CoPlot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="package_reference.html">Package Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_settings.html">coplot.plot_settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plots.html">coplot.plots</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">coplot.plot_contours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">coplot.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release_history.html">Release History</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CoPlot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="package_reference.html">Package Reference</a> &raquo;</li>
+        
+      <li>coplot.plot_contours</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/plot_contours.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-coplot.plot_contours">
+<span id="coplot-plot-contours"></span><span id="plot-contours"></span><h1>coplot.plot_contours<a class="headerlink" href="#module-coplot.plot_contours" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="coplot.plot_contours.Contours">
+<em class="property">class </em><code class="descclassname">coplot.plot_contours.</code><code class="descname">Contours</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#Contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.Contours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot 1-D and 2-D contours for several sets of data.</p>
+<dl class="method">
+<dt id="coplot.plot_contours.Contours.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>bins=None</em>, <em>labels=None</em>, <em>colors=None</em>, <em>line_styles=None</em>, <em>same_line_styles=True</em>, <em>sigma=2</em>, <em>smooth=2</em>, <em>minor_locator=True</em>, <em>major_locator_N=None</em>, <em>minor_locator_N=None</em>, <em>ticks_size=None</em>, <em>layout_adjust=None</em>, <em>lims=None</em>, <em>line_width=None</em>, <em>show_titles=False</em>, <em>title_fontsize=None</em>, <em>title_sigma=1</em>, <em>fill_contours=True</em>, <em>best_values=None</em>, <em>best_value_styles=None</em>, <em>best_value_colors=None</em>, <em>show_best_value_lines=False</em>, <em>legend=False</em>, <em>legend_labels=None</em>, <em>legend_size=None</em>, <em>equal_1d=True</em>, <em>pdf_method='2'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#Contours.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.Contours.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot 1-D and 2-D contours for several sets of data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bins</strong> – bins for 1-D and 2-D contours</li>
+<li><strong>labels</strong> – labels of panels</li>
+<li><strong>colors</strong> – colors of 1-D and 2-D contours</li>
+<li><strong>line_styles</strong> – lines styles of 1-D and 2-D contour for a set of data</li>
+<li><strong>same_line_styles</strong> – if True, 2-D contour have the same line styles with 1-D contours</li>
+<li><strong>sigma</strong> – contour levels, if sigma=2(3), plot with 2-sigma(3-sigma) contour levels</li>
+<li><strong>smooth</strong> – the number passed to ‘scipy.ndimage.gaussian_filter’ to smooth the probability density function</li>
+<li><strong>minor_locator</strong> – small scale of xticks and yticks</li>
+<li><strong>major_locator_N</strong> – the number of major scale of xticks and yticks</li>
+<li><strong>minor_locator_N</strong> – the number of minor locators</li>
+<li><strong>ticks_size</strong> – the size of xticklabel and yticklabel</li>
+<li><strong>layout_adjust</strong> – adjust the distance of panels</li>
+<li><strong>lims</strong> – xlim and ylim for every panels, lims=[[min_x1, min_x2,],[max_x1,max_x2,]]</li>
+<li><strong>line_width</strong> – the width of lines for 1-D contours</li>
+<li><strong>show_titles</strong> – if True(False), show(don’t show) the best fit values</li>
+<li><strong>title_fontsize</strong> – the font size of titles</li>
+<li><strong>title_sigma</strong> – show 1-sigma errors if title_sigma=1, and 2-sigma errors if title_sigma=2</li>
+<li><strong>fill_contours</strong> – fill contours with colors</li>
+<li><strong>best_values</strong> – plot the best fit value in the 2-D contour</li>
+<li><strong>best_value_styles</strong> – the styles of best values, eg: ‘o’/’^’</li>
+<li><strong>equal_1d</strong> – making the maximum of the probability density function of multiple data sets equal</li>
+<li><strong>pdf_method</strong> – ‘1’ or ‘2’, the method to estimate the probability density function for the given data, see the method pdf_1 and pdf_2</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coplot.plot_contours.Contours.plot_2d">
+<code class="descname">plot_2d</code><span class="sig-paren">(</span><em>bins=None</em>, <em>labels=None</em>, <em>colors=None</em>, <em>line_styles=None</em>, <em>same_line_styles=True</em>, <em>sigma=2</em>, <em>smooth=2</em>, <em>minor_locator=True</em>, <em>major_locator_N=None</em>, <em>minor_locator_N=None</em>, <em>ticks_size=None</em>, <em>layout_adjust=None</em>, <em>lims=None</em>, <em>line_width=None</em>, <em>show_titles=False</em>, <em>title_fontsize=None</em>, <em>title_sigma=1</em>, <em>fill_contours=True</em>, <em>best_values=None</em>, <em>best_value_styles=None</em>, <em>best_value_colors=None</em>, <em>show_best_value_lines=False</em>, <em>legend=False</em>, <em>legend_labels=None</em>, <em>legend_size=None</em>, <em>equal_1d=True</em>, <em>pdf_method='2'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#Contours.plot_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.Contours.plot_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot 2-D contours for several sets of data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bins</strong> – bins for 1-D and 2-D contours</li>
+<li><strong>labels</strong> – labels of panels</li>
+<li><strong>colors</strong> – colors of 1-D and 2-D contours</li>
+<li><strong>line_styles</strong> – lines styles of 1-D and 2-D contour for a set of data</li>
+<li><strong>same_line_styles</strong> – if True, 2-D contour have the same line styles with 1-D contours</li>
+<li><strong>sigma</strong> – contour levels, if sigma=2(3), plot with 2-sigma(3-sigma) contour levels</li>
+<li><strong>smooth</strong> – the number passed to ‘scipy.ndimage.gaussian_filter’ to smooth the probability density function</li>
+<li><strong>minor_locator</strong> – small scale of xticks and yticks</li>
+<li><strong>major_locator_N</strong> – the number of major scale of xticks and yticks</li>
+<li><strong>minor_locator_N</strong> – the number of minor locators</li>
+<li><strong>ticks_size</strong> – the size of xticklabel and yticklabel</li>
+<li><strong>layout_adjust</strong> – adjust the distance of panels</li>
+<li><strong>lims</strong> – xlim and ylim for every panels, lims=[[min_x1, min_x2,],[max_x1,max_x2,]]</li>
+<li><strong>line_width</strong> – the width of lines for 1-D contours</li>
+<li><strong>show_titles</strong> – if True(False), show(don’t show) the best fit values</li>
+<li><strong>title_fontsize</strong> – the font size of titles</li>
+<li><strong>title_sigma</strong> – show 1-sigma errors if title_sigma=1, and 2-sigma errors if title_sigma=2</li>
+<li><strong>fill_contours</strong> – fill contours with colors</li>
+<li><strong>best_values</strong> – plot the best fit value in the 2-D contour</li>
+<li><strong>best_value_styles</strong> – the styles of best values, eg: ‘o’/’^’</li>
+<li><strong>equal_1d</strong> – making the maximum of the probability density function of multiple data sets equal</li>
+<li><strong>pdf_method</strong> – ‘1’ or ‘2’, the method to estimate the probability density function for the given data, see the method pdf_1 and pdf_2</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="coplot.plot_contours.Plot_1d">
+<em class="property">class </em><code class="descclassname">coplot.plot_contours.</code><code class="descname">Plot_1d</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#Plot_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.Plot_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot 1-dimensional distribution of parameters.</p>
+<dl class="method">
+<dt id="coplot.plot_contours.Plot_1d.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>bins=100</em>, <em>smooth=2</em>, <em>x_lims=None</em>, <em>colors=None</em>, <em>line_styles=None</em>, <em>line_width=None</em>, <em>labels=None</em>, <em>ticks_size=None</em>, <em>major_locator_N=None</em>, <em>minor_locator=True</em>, <em>minor_locator_N=None</em>, <em>legend=False</em>, <em>legend_labels=None</em>, <em>legend_size=None</em>, <em>legend_loc=None</em>, <em>equal_1d=True</em>, <em>pdf_method='2'</em>, <em>fig_size=None</em>, <em>show_title=False</em>, <em>title_fontsize=None</em>, <em>title_sigma=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#Plot_1d.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.Plot_1d.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot the probability density function (PDF)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bins</strong> – the number of bins</li>
+<li><strong>smooth</strong> – the number passed to ‘scipy.ndimage.gaussian_filter’ to smooth the probability density function.</li>
+<li><strong>colors</strong> – the colors of lines</li>
+<li><strong>line_styles</strong> – the styles of lines</li>
+<li><strong>line_width</strong> – the width of lines</li>
+<li><strong>labels</strong> – the labels of panels</li>
+<li><strong>ticks_size</strong> – the size of ticks</li>
+<li><strong>major_locator_N</strong> – the number of major locators</li>
+<li><strong>minor_locator</strong> – if True(False), show the minor locators</li>
+<li><strong>minor_locator_N</strong> – the number of minor locators</li>
+<li><strong>equal_1d</strong> – making the maximum of the probability density function of multiple data sets equal</li>
+<li><strong>pdf_method</strong> – ‘1’ or ‘2’, the method to estimate the probability density function for the given data, see the method pdf_1 and pdf_2</li>
+<li><strong>show_title</strong> – if True(False), show(don’t show) the best fit values</li>
+<li><strong>title_fontsize</strong> – the font size of titles</li>
+<li><strong>title_sigma</strong> – show 1-sigma errors if title_sigma=1, and 2-sigma errors if title_sigma=2</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="coplot.plot_contours.Plot_2d">
+<em class="property">class </em><code class="descclassname">coplot.plot_contours.</code><code class="descname">Plot_2d</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#Plot_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.Plot_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot 2-dimensional distribution of parameters.</p>
+<dl class="method">
+<dt id="coplot.plot_contours.Plot_2d.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>sigma=2</em>, <em>bins=None</em>, <em>smooth=2</em>, <em>lims=None</em>, <em>colors=None</em>, <em>line_styles=None</em>, <em>line_width=None</em>, <em>labels=None</em>, <em>best_values=None</em>, <em>best_values_styles=None</em>, <em>ticks_size=None</em>, <em>major_locator_N=None</em>, <em>minor_locator=True</em>, <em>minor_locator_N=None</em>, <em>fill_contours=True</em>, <em>legend=False</em>, <em>legend_labels=None</em>, <em>legend_size=None</em>, <em>legend_loc=None</em>, <em>bbox_to_anchor=(1</em>, <em>1)</em>, <em>show_title=False</em>, <em>title_fontsize=None</em>, <em>title_sigma=1</em>, <em>fig_size=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#Plot_2d.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.Plot_2d.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot 2-D contours</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sigma</strong> – contour levels, if sigma=2(3), plot with 2-sigma(3-sigma) contour levels</li>
+<li><strong>bins</strong> – the number of bins</li>
+<li><strong>smooth</strong> – the number passed to ‘scipy.ndimage.gaussian_filter’ to smooth the probability density function.</li>
+<li><strong>colors</strong> – the colors of lines</li>
+<li><strong>line_styles</strong> – the styles of lines</li>
+<li><strong>line_width</strong> – the width of lines</li>
+<li><strong>labels</strong> – labels of the panel</li>
+<li><strong>best_values</strong> – the best fit values</li>
+<li><strong>best_value_styles</strong> – the styles of best fit values</li>
+<li><strong>ticks_size</strong> – the size of ticks</li>
+<li><strong>major_locator_N</strong> – the number of major locators</li>
+<li><strong>minor_locator</strong> – if True(False), show the minor locators</li>
+<li><strong>minor_locator_N</strong> – the number of minor locators</li>
+<li><strong>show_title</strong> – if True(False), show(don’t show) the best fit values</li>
+<li><strong>title_fontsize</strong> – the font size of titles</li>
+<li><strong>title_sigma</strong> – show 1-sigma errors if title_sigma=1, and 2-sigma errors if title_sigma=2</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="coplot.plot_contours.best_params">
+<code class="descclassname">coplot.plot_contours.</code><code class="descname">best_params</code><span class="sig-paren">(</span><em>chains</em>, <em>best_values=None</em>, <em>chi2=None</em>, <em>bins=None</em>, <em>N_decimal=6</em>, <em>print_info=True</em>, <em>sigma=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#best_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.best_params" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>chains</strong> – The mcmc results</li>
+<li><strong>best_values</strong> – The best values for parameters, 1 dimension array</li>
+<li><strong>bins</strong> – The bins for calculate the best values by using “find_best_para”</li>
+<li><strong>N_decimal</strong> – The number of decimal -&gt; this parameter is not used</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the best fit values with 1-sigma error</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coplot.plot_contours.find_best_para">
+<code class="descclassname">coplot.plot_contours.</code><code class="descname">find_best_para</code><span class="sig-paren">(</span><em>para_trace</em>, <em>bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#find_best_para"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.find_best_para" title="Permalink to this definition">¶</a></dt>
+<dd><p>find the best parameter and its 1-sigma/2-sigma for (non) Gaussian distribution</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coplot.plot_contours.find_best_para2">
+<code class="descclassname">coplot.plot_contours.</code><code class="descname">find_best_para2</code><span class="sig-paren">(</span><em>para_trace</em>, <em>bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#find_best_para2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.find_best_para2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="coplot.plot_contours.find_best_para_plt">
+<code class="descclassname">coplot.plot_contours.</code><code class="descname">find_best_para_plt</code><span class="sig-paren">(</span><em>para_trace</em>, <em>bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#find_best_para_plt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.find_best_para_plt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="coplot.plot_contours.get_best_params">
+<code class="descclassname">coplot.plot_contours.</code><code class="descname">get_best_params</code><span class="sig-paren">(</span><em>chain</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#get_best_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.get_best_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>this function is used to get the best-fit parameters calculated with best_params</p>
+<p>return: the best-fit values of parameters in numpy array</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coplot.plot_contours.params_deviation">
+<code class="descclassname">coplot.plot_contours.</code><code class="descname">params_deviation</code><span class="sig-paren">(</span><em>chain_2</em>, <em>chain_1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#params_deviation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.params_deviation" title="Permalink to this definition">¶</a></dt>
+<dd><p>get deviation of parameters in two chains</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coplot.plot_contours.pdf_1">
+<code class="descclassname">coplot.plot_contours.</code><code class="descname">pdf_1</code><span class="sig-paren">(</span><em>X</em>, <em>bins</em>, <em>smooth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#pdf_1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.pdf_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>estimate the probability density function for the given data</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coplot.plot_contours.pdf_2">
+<code class="descclassname">coplot.plot_contours.</code><code class="descname">pdf_2</code><span class="sig-paren">(</span><em>X</em>, <em>smooth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#pdf_2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.pdf_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>the same as pdf_1, but using different method</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coplot.plot_contours.remove_unreliableData">
+<code class="descclassname">coplot.plot_contours.</code><code class="descname">remove_unreliableData</code><span class="sig-paren">(</span><em>data</em>, <em>filter_N=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coplot/plot_contours.html#remove_unreliableData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coplot.plot_contours.remove_unreliableData" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove unreliable data, eg: very large or small data for a simulated distribution</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> – the input data, one-dimension or multi-dimension array</li>
+<li><strong>filter_N</strong> – a number, the column that was chosen to filter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note: the selection interval is [best_fit-3*sigma_3l, best_fit+3*sigma_3r]</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="utils.html" class="btn btn-neutral float-right" title="coplot.utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="plots.html" class="btn btn-neutral float-left" title="coplot.plots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Guojian Wang
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>coplot.plot_settings &mdash; CoPlot 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> CoPlot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../package_reference.html">Package Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release_history.html">Release History</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CoPlot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>coplot.plot_settings</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for coplot.plot_settings</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">MaxNLocator</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">AutoMinorLocator</span>
+
+
+<span class="c1">#to be improved</span>
+<div class="viewcode-block" id="PlotSettings"><a class="viewcode-back" href="../../plot_settings.html#coplot.plot_settings.PlotSettings">[docs]</a><span class="k">class</span> <span class="nc">PlotSettings</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#move parameters to here</span>
+        <span class="k">pass</span>
+    
+<div class="viewcode-block" id="PlotSettings.set_label"><a class="viewcode-back" href="../../plot_settings.html#coplot.plot_settings.PlotSettings.set_label">[docs]</a>    <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="PlotSettings.set_locator"><a class="viewcode-back" href="../../plot_settings.html#coplot.plot_settings.PlotSettings.set_locator">[docs]</a>    <span class="k">def</span> <span class="nf">set_locator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="PlotSettings.set_size"><a class="viewcode-back" href="../../plot_settings.html#coplot.plot_settings.PlotSettings.set_size">[docs]</a>    <span class="k">def</span> <span class="nf">set_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="PlotSettings.set_tick"><a class="viewcode-back" href="../../plot_settings.html#coplot.plot_settings.PlotSettings.set_tick">[docs]</a>    <span class="k">def</span> <span class="nf">set_tick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="PlotSettings.setting"><a class="viewcode-back" href="../../plot_settings.html#coplot.plot_settings.PlotSettings.setting">[docs]</a>    <span class="k">def</span> <span class="nf">setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">lims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">set_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">ticks_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">major_locator_N</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">major_locator_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">minor_locator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">minor_locator_N</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">show_xticks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">show_yticks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_xticklabels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">show_yticklabels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">show_xlabel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_ylabel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">old_ticksStyle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">rightTopTicks</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">        set the attribute of panels </span>
+<span class="sd">        </span>
+<span class="sd">        :param lims: [min_x, max_x, min_y, max_y], where min_* or max_* is a real number or None</span>
+<span class="sd">        :param labels: the label of a panel</span>
+<span class="sd">        :param ticks_size: the font size of ticks</span>
+<span class="sd">        :param rotation: the rotation of the label of ticks</span>
+<span class="sd">        :param major_locator_N: the number of major locators</span>
+<span class="sd">        :param minor_locator: if the minor_locator is True(False), show(don&#39;t show) the minor locators</span>
+<span class="sd">        :param minor_locator_N: the number of minor locators</span>
+<span class="sd">        :param show_xticks: if show_xticks is True(False), show(don&#39;t show) ticks of X axis</span>
+<span class="sd">        :param show_yticks: if show_yticks is True(False), show(don&#39;t show) ticks of Y axis</span>
+<span class="sd">        :param show_xticklabels: if True(False), show(don&#39;t show) the labels of ticks of X axis</span>
+<span class="sd">        :param show_yticklabels: if True(False), show(don&#39;t show) the labels of ticks of Y axis</span>
+<span class="sd">        :param show_xlabel: if True(False), show(don&#39;t show) the labels of X axis</span>
+<span class="sd">        :param show_ylabel: if True(False), show(don&#39;t show) the labels of Y axis</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">location</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">location</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">location</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        
+        <span class="k">if</span> <span class="n">lims</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">lims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">min_x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">max_x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">min_y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">max_y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">min_y</span><span class="p">,</span> <span class="n">max_y</span><span class="p">)</span>
+        
+        <span class="c1"># set ticks</span>
+        <span class="k">if</span> <span class="n">major_locator_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">major_locator_length</span> <span class="o">=</span> <span class="mf">5.5</span>
+        <span class="n">minor_locator_length</span> <span class="o">=</span> <span class="n">major_locator_length</span><span class="o">*</span><span class="mf">0.5</span> <span class="c1">#618</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">major_locator_length</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">minor_locator_length</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">major_locator_N</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">major_locator_N</span> <span class="o">=</span> <span class="mf">6.0</span>
+        <span class="k">if</span> <span class="n">minor_locator_N</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">minor_locator_N</span> <span class="o">=</span> <span class="mf">10.0</span>
+        
+        <span class="k">if</span> <span class="n">old_ticksStyle</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">rightTopTicks</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span><span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">top</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span><span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">show_xticks</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">minor_locator</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span> <span class="n">MaxNLocator</span><span class="p">(</span><span class="n">major_locator_N</span><span class="p">)</span> <span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span> <span class="n">AutoMinorLocator</span><span class="p">(</span><span class="n">minor_locator_N</span><span class="p">)</span> <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span> <span class="n">MaxNLocator</span><span class="p">(</span><span class="n">major_locator_N</span><span class="p">)</span> <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+        <span class="k">if</span> <span class="n">show_yticks</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">minor_locator</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span> <span class="n">MaxNLocator</span><span class="p">(</span><span class="n">major_locator_N</span><span class="p">)</span> <span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span> <span class="n">AutoMinorLocator</span><span class="p">(</span><span class="n">minor_locator_N</span><span class="p">)</span> <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span> <span class="n">MaxNLocator</span><span class="p">(</span><span class="n">major_locator_N</span><span class="p">)</span> <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+        
+        <span class="c1"># set ticks label</span>
+        <span class="k">if</span> <span class="n">ticks_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ticks_size</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">show_xticklabels</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">ticks_size</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">tick</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
+                <span class="n">tick</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+        <span class="k">if</span> <span class="n">show_yticklabels</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">ticks_size</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">tick</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
+                <span class="n">tick</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+
+        <span class="c1"># set labels</span>
+        <span class="k">if</span> <span class="n">set_labels</span><span class="p">:</span>
+            <span class="n">labels_size</span> <span class="o">=</span> <span class="n">ticks_size</span><span class="o">/</span><span class="mf">0.618</span>
+            <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$y$&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">show_xlabel</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">labels_size</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">show_ylabel</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">labels_size</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ax</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Guojian Wang
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
