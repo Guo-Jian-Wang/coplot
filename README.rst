@@ -22,13 +22,15 @@ Dependencies
 Installation
 ------------
 
-You can install coplot by using:
+You can install coplot by using pip::
 
-$ sudo pip install coplot-master.zip
+    $ sudo pip install coplot
 
-or
+or from source::
 
-$ sudo python setup.py install
+    $ git clone https://github.com/Guo-Jian-Wang/coplot.git    
+    $ cd coplot
+    $ sudo python setup.py install
 
 
 License
