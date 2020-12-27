@@ -8,8 +8,14 @@ It will be updated according to the research progress of the researcher. Its goa
 If you find it useful, enjoy it!
 
 
+Documentation
+-------------
+
+The documentation can be found at `coplot.readthedocs.io <https://coplot.readthedocs.io>`_.
+
+
 Dependencies
-============
+------------
 
 * os
 * numpy
