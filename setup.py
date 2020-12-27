@@ -37,9 +37,13 @@ setup(
     author_email = "gjwang@mail.bnu.edu.cn",
 
 #    packages = find_packages(),
-    packages = ["coplot", "examples",],
+    packages = ["coplot", "examples/contour_1D", "examples/contour_2D", "examples/contour_triangle"],
     include_package_data = True,
-    data_files = [],
+    data_files = ["examples/README.txt",
+                  "examples/contour_1D/README.txt",
+                  "examples/contour_2D/README.txt",
+                  "examples/contour_triangle/README.txt",
+                  ],
     platforms = "any",
     install_requires = []
 )

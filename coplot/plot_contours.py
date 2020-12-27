@@ -596,7 +596,7 @@ class Plot_1d:
         minor_locator_N=minor_locator_N)
         return ax
 
-    def plot(self, bins=100,smooth=2,x_lims=None,colors=None,line_styles=None,
+    def plot(self, bins=100,smooth=3,x_lims=None,colors=None,line_styles=None,
              line_width=None,labels=None,ticks_size=None,major_locator_N=None,
              minor_locator=True,minor_locator_N=None,legend=False,legend_labels=None,
              legend_size=None,legend_loc=None,equal_1d=True,pdf_method='2',fig_size=None,
@@ -639,7 +639,7 @@ class Plot_1d:
         if ticks_size is None:
             ticks_size = 12
         if legend_labels is None:
-            legend_labels = [r'$\rm Line$' for i in range(self.N)]
+            legend_labels = [r'$\rm Line\ %s$'%(i+1) for i in range(self.N)]
         if legend_size is None:
             legend_size = ticks_size*(1+0.382) #ticks_size/0.618
 
@@ -678,7 +678,7 @@ class Plot_1d:
             ax.plot(x, P, line_styles[i], color=colors[i], linewidth=line_width, label=legend_labels[i])
             if legend is True:
                 if legend_loc is None:
-                    legend_loc = 'upper right'
+                    legend_loc = 'best'
                 ax.legend(loc=legend_loc, borderaxespad=0.5, fontsize=legend_size)
         return fig
 
@@ -717,7 +717,7 @@ class Plot_2d:
         minor_locator=minor_locator,minor_locator_N=minor_locator_N)
         return ax
                       
-    def plot(self, sigma=2,bins=None,smooth=2,lims=None,colors=None,line_styles=None,
+    def plot(self, sigma=2,bins=None,smooth=3,lims=None,colors=None,line_styles=None,
              line_width=None,labels=None,best_values=None,best_values_styles=None,
              ticks_size=None,major_locator_N=None,minor_locator=True,
              minor_locator_N=None,fill_contours=True,legend=False,legend_labels=None,
@@ -766,7 +766,7 @@ class Plot_2d:
         if ticks_size is None:
             ticks_size = 12
         if legend_labels is None:
-            legend_labels = [r'$\rm Line$' for i in range(self.N)]
+            legend_labels = [r'$\rm Line\ %s$'%(i+1) for i in range(self.N)]
         if legend_size is None:
             legend_size = ticks_size*(1+0.382) #ticks_size/0.618
         
@@ -812,7 +812,7 @@ class Plot_2d:
                 ax.plot(best_values[i][0],best_values[i][1],best_values_styles,color=colors[i])
             if legend is True:
                 if legend_loc is None:
-                    legend_loc = 'upper right'
+                    legend_loc = 'best'
                 if fill_contours is False:
                     ax.legend(loc=legend_loc,borderaxespad=0.5,fontsize=legend_size)
                 elif fill_contours is True:
@@ -877,7 +877,7 @@ class Contours:
         ax.plot(x, P, line_style, color=color, linewidth=line_width, label=legend_label)
         # add legend
         if legend is True:
-            legend_loc = 'upper right'
+            legend_loc = 'best'
 #            legend_loc = 'center'
             if legend_size is None:
                 legend_size = ticks_size*(1+0.382) #ticks_size/0.618
@@ -909,7 +909,7 @@ class Contours:
 
         # add legend
         if legend is True:
-            legend_loc = 'upper right'
+            legend_loc = 'best'
 #            legend_loc = 'center'
             if legend_size is None:
                 legend_size = ticks_size*(1+0.382) #ticks_size/0.618
@@ -940,13 +940,13 @@ class Contours:
         return            
     
     def plot(self, bins=None,labels=None,colors=None,line_styles=None,
-             same_line_styles=True,sigma=2,smooth=2,minor_locator=True,
+             same_line_styles=True,sigma=2,smooth=3,minor_locator=True,
              major_locator_N=None,minor_locator_N=None,ticks_size=None,
              layout_adjust=None,lims=None,line_width=None,show_titles=False,
              title_fontsize=None,title_sigma=1,fill_contours=True,
              best_values=None,best_value_styles=None,best_value_colors=None,
              show_best_value_lines=False,legend=False,legend_labels=None,
-             legend_size=None,equal_1d=True,pdf_method='2'):
+             legend_size=None,equal_1d=True,pdf_method='2',subplots_adjust=True):
         '''
         Plot 1-D and 2-D contours for several sets of data.
         
@@ -1027,7 +1027,7 @@ class Contours:
         if ticks_size is None:
             ticks_size = 12
         if legend_labels is None:
-            legend_labels = [r'$\rm Line$' for i in range(self.n)]
+            legend_labels = [r'$\rm Line\ %s$'%(i+1) for i in range(self.n)]
             
         # best fit values and 1-sigma & 2-sigma errors
         best_fit = np.ones(self.N)
@@ -1165,7 +1165,10 @@ class Contours:
                             if show_best_value_lines is True:
                                 self.__intersecting_line(ax, [best_values[k][j],best_values[k][i]],\
                                 xy_lims, best_value_colors[k])
-        fig.subplots_adjust(left=0,bottom=0,right=1,top=1,wspace=layout_adjust[0],hspace=layout_adjust[1])
+        if subplots_adjust:
+            fig.subplots_adjust(left=0,bottom=0,right=1,top=1,wspace=layout_adjust[0],hspace=layout_adjust[1])
+        else:
+            fig.subplots_adjust(wspace=layout_adjust[0],hspace=layout_adjust[1])
         return fig
 
 
@@ -1177,7 +1180,7 @@ class Contours:
              title_fontsize=None,title_sigma=1,fill_contours=True,
              best_values=None,best_value_styles=None,best_value_colors=None,
              show_best_value_lines=False,legend=False,legend_labels=None,
-             legend_size=None,equal_1d=True,pdf_method='2'):
+             legend_size=None,equal_1d=True,pdf_method='2',subplots_adjust=True):
         '''
         Plot 2-D contours for several sets of data.
         
@@ -1258,7 +1261,7 @@ class Contours:
         if ticks_size is None:
             ticks_size = 12
         if legend_labels is None:
-            legend_labels = [r'$\rm Line$' for i in range(self.n)]
+            legend_labels = [r'$\rm Line\ %s$'%(i+1) for i in range(self.n)]
             
         # best fit values and 1-sigma & 2-sigma errors
         best_fit = np.ones(self.N)
@@ -1331,6 +1334,8 @@ class Contours:
                             if show_best_value_lines is True:
                                 self.__intersecting_line(ax, [best_values[k][j],best_values[k][i+1]],\
                                 xy_lims, best_value_colors[k])
-        fig.subplots_adjust(left=0,bottom=0,right=1,top=1,wspace=layout_adjust[0],hspace=layout_adjust[1])
+        if subplots_adjust:
+            fig.subplots_adjust(left=0,bottom=0,right=1,top=1,wspace=layout_adjust[0],hspace=layout_adjust[1])
+        else:
+            fig.subplots_adjust(wspace=layout_adjust[0],hspace=layout_adjust[1])
         return fig
-
