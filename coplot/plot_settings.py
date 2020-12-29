@@ -29,7 +29,7 @@ class PlotSettings:
                 show_xticklabels=True,show_yticklabels=True,show_xlabel=True,
                 show_ylabel=True, old_ticksStyle=False,rightTopTicks=True):
         ''' 
-        set the attribute of panels 
+        Set the attribute of panels.
         
         :param lims: [min_x, max_x, min_y, max_y], where min_* or max_* is a real number or None
         :param labels: the label of a panel
