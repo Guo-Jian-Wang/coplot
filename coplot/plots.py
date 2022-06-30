@@ -7,7 +7,12 @@ import numpy as np
 import math
 
 
-fiducial_colors = ['#006FED','#E03424','#33b540','#f68712','#1f77b4','#595657','m','#bdbcbc','#1f77b4','#ff7f0e']
+# fiducial_colors = ['#006FED','#E03424','#33b540','#f68712','#1f77a4','#595657','m','#bdbcbc','#ad9f0a', '#ff7f0e', 'k']
+fiducial_colors = ['#006FED','#E03424','#33b540','#ff7f0e','#1f77a4','#595657','m','#bdbcbc','#ad9f0a', '#ff7f0e', 'k']
+
+fiducial_colors_2 = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+
+
 fiducial_line_styles = ['-','--',':','-.','--']
 markers = ['.', ',', 'o', 'v', '^', '<', '>', '1', '2', '3', '4', '8', 's', 'p', 'P', '*', 'h', 'H', '+', 'x', 'X', 'D', 'd', '|', '_']
 
@@ -252,12 +257,16 @@ class Plots:
         else:
             return ax
 
-def savefig(path, fig_name, fig):
+def savefig(path, fig_name, fig, dpi='figure'):
+    '''
+    dpi: float or 'figure'. The resolution in dots per inch. 
+        If 'figure', use the figure's dpi value.
+    '''
     if path:
         utils.mkdir(path)
-        fig.savefig(path + '/' + fig_name, bbox_inches='tight')
+        fig.savefig(path + '/' + fig_name, dpi=dpi, bbox_inches='tight')
     else:
-        fig.savefig(fig_name, bbox_inches='tight')
+        fig.savefig(fig_name, dpi=dpi, bbox_inches='tight')
 
 
 #%% multiple panels
@@ -290,8 +299,13 @@ class MultiplePanels(object):
         return int(math.ceil(self.panel_n/float(self.lat_n)))
     
     def plot(self, panel_size=(4, 3), layout_adjust=[0.3, 0.25], ticks_size=12):
+        if len(layout_adjust)==2:
+            wspace, hspace = layout_adjust
+            left, bottom, right, top = 0, 0, 1, 1
+        elif len(layout_adjust)==6:
+            left, bottom, right, top, wspace, hspace = layout_adjust
         fig = plt.figure(figsize=(panel_size[0]*self.lat_n, panel_size[1]*self.lon_n))
-        fig.subplots_adjust(left=0,bottom=0,right=1,top=1,wspace=layout_adjust[0],hspace=layout_adjust[1])
+        fig.subplots_adjust(left=left,bottom=bottom,right=right,top=top,wspace=wspace,hspace=hspace)
         for i in range(self.lon_n):
             for j in range(self.lat_n):
                 if i*self.lat_n+j+1 > self.panel_n:

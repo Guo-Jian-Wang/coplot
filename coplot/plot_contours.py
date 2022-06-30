@@ -3,6 +3,7 @@
 from . import plot_settings as pls
 from . import plots as pl
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import logging
@@ -225,17 +226,25 @@ def best_params(chains, best_values=None, chi2=None, bins=None, N_decimal=6, pri
     n_dim = len(chains[0,:]) # the number of parameters (n dimension)
     if best_values is None:
 #        best_values = np.array([find_best_para(chains[:,i], bins)[0] for i in range(n_dim)])
-        best_values = np.array([_quantile(chains[:,i], 0.5) for i in range(n_dim)])
+        # best_values = np.array([_quantile(chains[:,i], 0.5) for i in range(n_dim)])
+        best_values = Chains.best_mode(chains) #new, updated
     
+    #new, updated
     paras = np.ones((1, 7*n_dim)) # the array to save best fit values and errors for every parameter
     for i in range(n_dim):
+        sigma1_left_edge = _quantile(chains[:,i][np.where(chains[:,i]<best_values[i])], 0.3174)
+        sigma2_left_edge = _quantile(chains[:,i][np.where(chains[:,i]<best_values[i])], 0.0456)
+        sigma3_left_edge = _quantile(chains[:,i][np.where(chains[:,i]<best_values[i])], 0.0026)
+        sigma1_right_edge = _quantile(chains[:,i][np.where(chains[:,i]>best_values[i])], 0.6826)
+        sigma2_right_edge = _quantile(chains[:,i][np.where(chains[:,i]>best_values[i])], 0.9544)
+        sigma3_right_edge = _quantile(chains[:,i][np.where(chains[:,i]>best_values[i])], 0.9974)
         paras[0, 7*i] = best_values[i]
-        paras[0, 7*i+1] = best_values[i] - _quantile(chains[:,i], 0.1587) # 1sigma left error
-        paras[0, 7*i+2] = _quantile(chains[:,i], 0.8413) - best_values[i] # 1sigma right error
-        paras[0, 7*i+3] = best_values[i] - _quantile(chains[:,i], 0.0228) # 2sigma left error
-        paras[0, 7*i+4] = _quantile(chains[:,i], 0.9772) - best_values[i] # 2sigma right error
-        paras[0, 7*i+5] = best_values[i] - _quantile(chains[:,i], 0.0013) # 3sigma left error
-        paras[0, 7*i+6] = _quantile(chains[:,i], 0.9987) - best_values[i] # 3sigma right error
+        paras[0, 7*i+1] = best_values[i] - sigma1_left_edge # 1sigma left error
+        paras[0, 7*i+2] = sigma1_right_edge - best_values[i] # 1sigma right error
+        paras[0, 7*i+3] = best_values[i] - sigma2_left_edge # 2sigma left error
+        paras[0, 7*i+4] = sigma2_right_edge - best_values[i] # 2sigma right error
+        paras[0, 7*i+5] = best_values[i] - sigma3_left_edge # 3sigma left error
+        paras[0, 7*i+6] = sigma3_right_edge - best_values[i] # 3sigma right error
 
     paras_NoRound = np.copy(paras)
     for j in range(7*n_dim):
@@ -274,6 +283,147 @@ def best_params(chains, best_values=None, chi2=None, bins=None, N_decimal=6, pri
     return paras_sum, paras_list_1
 
 
+#the same as Chains in ecopann
+class Chains(object):
+    
+    @staticmethod
+    def reshape_chain(chain):
+        if len(chain.shape)==1:
+            chain = chain.reshape(-1, 1)
+        return chain
+    
+    @staticmethod
+    def params_n(chain):
+        if len(chain.shape)==1:
+            return 1
+        elif len(chain.shape)==2:
+            return chain.shape[1]
+    
+    @staticmethod
+    def best_mode(chain, bins=100, smooth=5):
+        """Take the mode as the best value.
+        """
+        chain = Chains.reshape_chain(chain)
+        params_n = Chains.params_n(chain)
+        best = np.zeros(params_n)
+        for i in range(params_n):
+            x, prob = pdf_1(chain[:,i], bins, smooth)
+            best_idx = np.where(prob==np.max(prob))
+            best[i] = x[best_idx]
+        return best
+    
+    @staticmethod
+    def best_median(chain):
+        """Take the median as the best value.
+        """
+        chain = Chains.reshape_chain(chain)
+        params_n = Chains.params_n(chain)
+        return np.array([_quantile(chain[:,i], 0.5)[0] for i in range(params_n)])
+
+    @staticmethod
+    def sigma(chain, best_values, out_sigma=1):
+        """Calculate the standard deviations.
+        
+        Parameters
+        ----------
+        chain : array-like
+            The ANN chain.
+        best_values : 1-dimension array
+            The best values of parameters.
+        out_sigma : int
+            The output sigma, which can be 1, 2, or 3. Default: 1
+
+        Returns
+        -------
+        sigma_1l, sigma_2l, sigma_3l : 1-dimension array
+            The left 1 sigma, 2 sigma, or 3sigma deviations.
+        sigma_1r, sigma_2r, sigma_3r : 1-dimension array
+            The right 1 sigma, 2 sigma, or 3sigma deviations.
+        """
+        chain = Chains.reshape_chain(chain)
+        params_n = Chains.params_n(chain)
+        sigma1_left = np.zeros(params_n)
+        sigma2_left = np.zeros(params_n)
+        sigma3_left = np.zeros(params_n)
+        sigma1_right = np.zeros(params_n)
+        sigma2_right = np.zeros(params_n)
+        sigma3_right = np.zeros(params_n)
+        for i in range(params_n):
+            sigma1_left_edge = _quantile(chain[:,i][np.where(chain[:,i]<best_values[i])], 0.3174)
+            sigma2_left_edge = _quantile(chain[:,i][np.where(chain[:,i]<best_values[i])], 0.0456)
+            sigma3_left_edge = _quantile(chain[:,i][np.where(chain[:,i]<best_values[i])], 0.0026)
+            sigma1_right_edge = _quantile(chain[:,i][np.where(chain[:,i]>best_values[i])], 0.6826)
+            sigma2_right_edge = _quantile(chain[:,i][np.where(chain[:,i]>best_values[i])], 0.9544)
+            sigma3_right_edge = _quantile(chain[:,i][np.where(chain[:,i]>best_values[i])], 0.9974)
+            sigma1_left[i] = best_values[i] - sigma1_left_edge
+            sigma2_left[i] = best_values[i] - sigma2_left_edge
+            sigma3_left[i] = best_values[i] - sigma3_left_edge
+            sigma1_right[i] = sigma1_right_edge - best_values[i]
+            sigma2_right[i] = sigma2_right_edge - best_values[i]
+            sigma3_right[i] = sigma3_right_edge - best_values[i]
+        if out_sigma==1:
+            return sigma1_left, sigma1_right
+        elif out_sigma==2:
+            return sigma1_left, sigma1_right, sigma2_left, sigma2_right
+        elif out_sigma==3:
+            return sigma1_left, sigma1_right, sigma2_left, sigma2_right, sigma3_left, sigma3_right
+    
+    @staticmethod
+    def bestFit(chain, best_type='mode', out_sigma=1, symmetry_error=True):
+        """Get the best-fit parameters from the chain.
+
+        Parameters
+        ----------
+        chain : array-like
+            The ANN chain.
+        best_type : str, optional
+            The type of the best values of parameters, 'mode' or 'median'. If 'mode', it will take the mode as the best value. 
+            If 'median', it will take the median as the best value. Default: 'mode'
+        out_sigma : int
+            The output sigma, which can be 1, 2, or 3. Default: 1
+        symmetry_error : bool, optional
+            If True, obtain symmetrical errors, otherwise, obtain unsymmetrical errors. Default: True
+        """
+        if best_type=='mode':
+            best_values = Chains.best_mode(chain, bins=100, smooth=5)
+        elif best_type=='median':
+            best_values = Chains.best_median(chain)
+        sigma1_left, sigma1_right, sigma2_left, sigma2_right, sigma3_left, sigma3_right = Chains.sigma(chain, best_values, out_sigma=3) #1sigma, 2sigma, 3sigma left/right error
+        if out_sigma==1:
+            best_fit = np.c_[best_values, sigma1_left, sigma1_right]
+            best_fit_symError = np.c_[best_values, (sigma1_left+sigma1_right)/2.0]
+        elif out_sigma==2:
+            best_fit = np.c_[best_values, sigma1_left, sigma1_right, sigma2_left, sigma2_right]
+            best_fit_symError = np.c_[best_values, (sigma1_left+sigma1_right)/2.0, (sigma2_left+sigma2_right)/2.0]
+        elif out_sigma==3:
+            best_fit = np.c_[best_values, sigma1_left, sigma1_right, sigma2_left, sigma2_right, sigma3_left, sigma3_right]
+            best_fit_symError = np.c_[best_values, (sigma1_left+sigma1_right)/2.0, (sigma2_left+sigma2_right)/2.0, (sigma3_left+sigma3_right)/2.0]
+        if symmetry_error:
+            return best_fit_symError
+        else:
+            return best_fit
+    
+    @staticmethod
+    def param_devs(chain_1, chain_2):
+        """Get deviations of parameters obtained from two chains.
+        """
+        best_fit_1 = Chains.bestFit(chain_1, best_type='mode', symmetry_error=True)
+        best_fit_2 = Chains.bestFit(chain_2, best_type='mode', symmetry_error=True)
+        dev = abs(best_fit_1[:,0]-best_fit_2[:,0]) / np.sqrt(best_fit_1[:,1]**2+best_fit_2[:,1]**2)
+        dev = [round(i, 4) for i in dev]
+        return dev
+    
+    @staticmethod
+    def error_devs(chain_1, chain_true):
+        """Get the absolute values of the relative deviations of error of parameters obtained from two chains.
+        """
+        err_1 = Chains.bestFit(chain_1, best_type='mode', symmetry_error=True)[:,1]
+        err_true = Chains.bestFit(chain_true, best_type='mode', symmetry_error=True)[:,1]
+        dev = abs( (err_1 - err_true)/err_true )
+        dev = [round(i, 4) for i in dev]
+        return dev
+
+
 #%%
 def get_best_params(chain):
     '''
@@ -292,7 +442,7 @@ def get_best_params(chain):
         best_all.append(best_1)
     best_all = np.array(best_all)
     return best_all
-    
+
 def params_deviation(chain_2, chain_1):
     ''' get deviation of parameters in two chains '''
     best_1 = get_best_params(chain_1)
@@ -497,10 +647,11 @@ def _hist2d(x, y, bins=20, range=None, weights=None, levels=None, smooth=None,
         if legend_label is None:
             legend_label = 'Line'
         contour_edge.collections[0].set_label(legend_label) # added later
-
 #    ax.set_xlim(range[0])
 #    ax.set_ylim(range[1])
-    return
+
+    # print(X2.shape, Y2.shape, H2.shape, V.shape)
+    return contour_edge
 
 
 def remove_unreliableData(data, filter_N=0):
@@ -533,7 +684,7 @@ def remove_unreliableData(data, filter_N=0):
 
 def pdf_1(X, bins, smooth):
     ''' estimate the probability density function for the given data '''
-    hist = np.histogram(X, bins, normed=True)
+    hist = np.histogram(X, bins, density=True) #normed=True --> density=True
     P, x = hist[0], hist[1]
     x = (x[:-1]+x[1:])/2.0
     P = gaussian_filter(P, smooth)
@@ -553,10 +704,26 @@ class Plot_1d:
     Plot 1-dimensional distribution of parameters.
     """
     def __init__(self, data):
+        data = self.reshape_chain(data)
         data = pl.makeList(data)
         N = len(data)
         self.data = data
         self.N = N # N data sets
+    
+    def reshape_chain(self, chain):
+        if isinstance(chain, (list, tuple)):
+            chain_new = []
+            for i in range(len(chain)):
+                if len(chain[i].shape)==2 and chain[i].shape[1]==1:
+                    chain_new.append(chain[i][:,0])
+                else:
+                    chain_new.append(chain[i])
+            return chain_new
+        else:
+            if len(chain.shape)==2 and chain.shape[1]==1:
+                return chain[:,0]
+            else:
+                return chain
     
     def __pdf(self, X, bins, smooth, pdf_method='2'):
         if pdf_method=='1':
@@ -641,19 +808,27 @@ class Plot_1d:
         if legend_labels is None:
             legend_labels = [r'$\rm Line\ %s$'%(i+1) for i in range(self.N)]
         if legend_size is None:
-            legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+            # legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+            legend_size = ticks_size * 1.20833
 
-        # best fit values and 1-sigma & 2-sigma errors
-        best_fit = _quantile(self.data[0], 0.5)
-        sigma_1l = _quantile(self.data[0], 0.5) - _quantile(self.data[0], 0.1587)
-        sigma_1r = _quantile(self.data[0], 0.8413) - _quantile(self.data[0], 0.5)
-        sigma_2l = _quantile(self.data[0], 0.5) - _quantile(self.data[0], 0.0228)
-        sigma_2r = _quantile(self.data[0], 0.9772) - _quantile(self.data[0], 0.5)
-        sigma_3l = _quantile(self.data[0], 0.5) - _quantile(self.data[0], 0.0013)
-        sigma_3r = _quantile(self.data[0], 0.9987) - _quantile(self.data[0], 0.5)
+        # # # best fit values and 1-sigma & 2-sigma errors
+        # # best_fit = _quantile(self.data[0], 0.5)
+        # # sigma_1l = _quantile(self.data[0], 0.5) - _quantile(self.data[0], 0.1587)
+        # # sigma_1r = _quantile(self.data[0], 0.8413) - _quantile(self.data[0], 0.5)
+        # # sigma_2l = _quantile(self.data[0], 0.5) - _quantile(self.data[0], 0.0228)
+        # # sigma_2r = _quantile(self.data[0], 0.9772) - _quantile(self.data[0], 0.5)
+        # # sigma_3l = _quantile(self.data[0], 0.5) - _quantile(self.data[0], 0.0013)
+        # # sigma_3r = _quantile(self.data[0], 0.9987) - _quantile(self.data[0], 0.5)
+
+        # #new, to be corrected
+        # bestFit = Chains.bestFit(self.data[0],best_type='mode',out_sigma=3,symmetry_error=False)
+        # best_fit = bestFit[:,0]
+        # sigma_1l, sigma_1r = bestFit[:,1], bestFit[:,2]
+        # sigma_2l, sigma_2r = bestFit[:,3], bestFit[:,4]
+        # sigma_3l, sigma_3r = bestFit[:,5], bestFit[:,6]
         
         if fig_size is None:
-            fig = plt.figure(figsize=(6, 4.5))
+            fig = plt.figure(figsize=(6*1.05, 4.5*1.05))
         else:
             fig = plt.figure(figsize=fig_size)        
         ax = self.__setting(bins,smooth,x_lims,labels,ticks_size,major_locator_N,minor_locator,minor_locator_N)
@@ -722,7 +897,7 @@ class Plot_2d:
              ticks_size=None,major_locator_N=None,minor_locator=True,
              minor_locator_N=None,fill_contours=True,legend=False,legend_labels=None,
              legend_size=None,legend_loc=None,bbox_to_anchor=(1,1),show_title=False,title_fontsize=None,
-             title_sigma=1,fig_size=None):
+             title_sigma=1,fig_size=None,output_ax=False):
         '''
         plot 2-D contours
         
@@ -768,24 +943,33 @@ class Plot_2d:
         if legend_labels is None:
             legend_labels = [r'$\rm Line\ %s$'%(i+1) for i in range(self.N)]
         if legend_size is None:
-            legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+            # legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+            legend_size = ticks_size * 1.20833
         
-        # best fit values and 1-sigma & 2-sigma errors
-        best_fit = np.ones(2)
-        sigma_1l = np.ones(2); sigma_1r = np.ones(2)
-        sigma_2l = np.ones(2); sigma_2r = np.ones(2)
-        sigma_3l = np.ones(2); sigma_3r = np.ones(2)
-        for i in range(2):
-            best_fit[i] = _quantile(self.data[0][i], 0.5)
-            sigma_1l[i] = _quantile(self.data[0][i], 0.5) - _quantile(self.data[0][i], 0.1587)
-            sigma_1r[i] = _quantile(self.data[0][i], 0.8413) - _quantile(self.data[0][i], 0.5)
-            sigma_2l[i] = _quantile(self.data[0][i], 0.5) - _quantile(self.data[0][i], 0.0228)
-            sigma_2r[i] = _quantile(self.data[0][i], 0.9772) - _quantile(self.data[0][i], 0.5)
-            sigma_3l[i] = _quantile(self.data[0][i], 0.5) - _quantile(self.data[0][i], 0.0013)
-            sigma_3r[i] = _quantile(self.data[0][i], 0.9987) - _quantile(self.data[0][i], 0.5)
+        # # # best fit values and 1-sigma & 2-sigma errors
+        # # best_fit = np.ones(2)
+        # # sigma_1l = np.ones(2); sigma_1r = np.ones(2)
+        # # sigma_2l = np.ones(2); sigma_2r = np.ones(2)
+        # # sigma_3l = np.ones(2); sigma_3r = np.ones(2)
+        # # for i in range(2):
+        # #     best_fit[i] = _quantile(self.data[0][i], 0.5)
+        # #     sigma_1l[i] = _quantile(self.data[0][i], 0.5) - _quantile(self.data[0][i], 0.1587)
+        # #     sigma_1r[i] = _quantile(self.data[0][i], 0.8413) - _quantile(self.data[0][i], 0.5)
+        # #     sigma_2l[i] = _quantile(self.data[0][i], 0.5) - _quantile(self.data[0][i], 0.0228)
+        # #     sigma_2r[i] = _quantile(self.data[0][i], 0.9772) - _quantile(self.data[0][i], 0.5)
+        # #     sigma_3l[i] = _quantile(self.data[0][i], 0.5) - _quantile(self.data[0][i], 0.0013)
+        # #     sigma_3r[i] = _quantile(self.data[0][i], 0.9987) - _quantile(self.data[0][i], 0.5)
+
+        # #new, to be corrected
+        # bestFit = Chains.bestFit(self.data[0],best_type='mode',out_sigma=3,symmetry_error=False)
+        # best_fit = bestFit[:,0]
+        # sigma_1l, sigma_1r = bestFit[:,1], bestFit[:,2]
+        # sigma_2l, sigma_2r = bestFit[:,3], bestFit[:,4]
+        # sigma_3l, sigma_3r = bestFit[:,5], bestFit[:,6]
+        
         
         if fig_size is None:
-            fig = plt.figure(figsize=(6, 4.5))
+            fig = plt.figure(figsize=(6*1.05, 4.5*1.05))
         else:
             fig = plt.figure(figsize=fig_size)
         ax = self.__setting(labels,lims,ticks_size,major_locator_N,minor_locator,minor_locator_N)
@@ -822,7 +1006,10 @@ class Plot_2d:
                         patch.append(mpatches.Patch(color=legend_colors[i], label=legend_labels[i]))
                     ax.legend(handles=patch, bbox_to_anchor=bbox_to_anchor, loc=legend_loc,\
                     borderaxespad=0.5, fontsize=legend_size)
-        return fig
+        if output_ax:
+            return fig, ax
+        else:
+            return fig
 
 
 class Contours:
@@ -880,7 +1067,8 @@ class Contours:
             legend_loc = 'best'
 #            legend_loc = 'center'
             if legend_size is None:
-                legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+                # legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+                legend_size = ticks_size * 1.20833
             if fill_contours is False:
                 ax.legend(bbox_to_anchor=(1, self.N), loc=legend_loc,\
                 borderaxespad=0., fontsize=legend_size)
@@ -912,7 +1100,8 @@ class Contours:
             legend_loc = 'best'
 #            legend_loc = 'center'
             if legend_size is None:
-                legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+                # legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+                legend_size = ticks_size * 1.20833
             if fill_contours is False:
                 ax.legend(bbox_to_anchor=(1, self.N-1), loc=legend_loc,\
                 borderaxespad=0., fontsize=legend_size)#
@@ -1030,18 +1219,25 @@ class Contours:
             legend_labels = [r'$\rm Line\ %s$'%(i+1) for i in range(self.n)]
             
         # best fit values and 1-sigma & 2-sigma errors
-        best_fit = np.ones(self.N)
-        sigma_1l = np.ones(self.N); sigma_1r = np.ones(self.N)
-        sigma_2l = np.ones(self.N); sigma_2r = np.ones(self.N)
-        sigma_3l = np.ones(self.N); sigma_3r = np.ones(self.N)
-        for i in range(self.N):
-            best_fit[i] = _quantile(self.data[0][:,i], 0.5)
-            sigma_1l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.1587)
-            sigma_1r[i] = _quantile(self.data[0][:,i], 0.8413) - _quantile(self.data[0][:,i], 0.5)
-            sigma_2l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.0228)
-            sigma_2r[i] = _quantile(self.data[0][:,i], 0.9772) - _quantile(self.data[0][:,i], 0.5)
-            sigma_3l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.0013)
-            sigma_3r[i] = _quantile(self.data[0][:,i], 0.9987) - _quantile(self.data[0][:,i], 0.5)
+        # best_fit = np.ones(self.N)
+        # sigma_1l = np.ones(self.N); sigma_1r = np.ones(self.N)
+        # sigma_2l = np.ones(self.N); sigma_2r = np.ones(self.N)
+        # sigma_3l = np.ones(self.N); sigma_3r = np.ones(self.N)
+        # for i in range(self.N):
+        #     best_fit[i] = _quantile(self.data[0][:,i], 0.5)
+        #     sigma_1l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.1587)
+        #     sigma_1r[i] = _quantile(self.data[0][:,i], 0.8413) - _quantile(self.data[0][:,i], 0.5)
+        #     sigma_2l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.0228)
+        #     sigma_2r[i] = _quantile(self.data[0][:,i], 0.9772) - _quantile(self.data[0][:,i], 0.5)
+        #     sigma_3l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.0013)
+        #     sigma_3r[i] = _quantile(self.data[0][:,i], 0.9987) - _quantile(self.data[0][:,i], 0.5)
+        
+        #new
+        bestFit = Chains.bestFit(self.data[0],best_type='mode',out_sigma=3,symmetry_error=False)
+        best_fit = bestFit[:,0]
+        sigma_1l, sigma_1r = bestFit[:,1], bestFit[:,2]
+        sigma_2l, sigma_2r = bestFit[:,3], bestFit[:,4]
+        sigma_3l, sigma_3r = bestFit[:,5], bestFit[:,6]
         
         # plot contours
         fig = plt.figure(figsize=(self.N*2, self.N*2))
@@ -1263,19 +1459,26 @@ class Contours:
         if legend_labels is None:
             legend_labels = [r'$\rm Line\ %s$'%(i+1) for i in range(self.n)]
             
-        # best fit values and 1-sigma & 2-sigma errors
-        best_fit = np.ones(self.N)
-        sigma_1l = np.ones(self.N); sigma_1r = np.ones(self.N)
-        sigma_2l = np.ones(self.N); sigma_2r = np.ones(self.N)
-        sigma_3l = np.ones(self.N); sigma_3r = np.ones(self.N)
-        for i in range(self.N):
-            best_fit[i] = _quantile(self.data[0][:,i], 0.5)
-            sigma_1l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.1587)
-            sigma_1r[i] = _quantile(self.data[0][:,i], 0.8413) - _quantile(self.data[0][:,i], 0.5)
-            sigma_2l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.0228)
-            sigma_2r[i] = _quantile(self.data[0][:,i], 0.9772) - _quantile(self.data[0][:,i], 0.5)
-            sigma_3l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.0013)
-            sigma_3r[i] = _quantile(self.data[0][:,i], 0.9987) - _quantile(self.data[0][:,i], 0.5)
+        # # best fit values and 1-sigma & 2-sigma errors
+        # best_fit = np.ones(self.N)
+        # sigma_1l = np.ones(self.N); sigma_1r = np.ones(self.N)
+        # sigma_2l = np.ones(self.N); sigma_2r = np.ones(self.N)
+        # sigma_3l = np.ones(self.N); sigma_3r = np.ones(self.N)
+        # for i in range(self.N):
+        #     best_fit[i] = _quantile(self.data[0][:,i], 0.5)
+        #     sigma_1l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.1587)
+        #     sigma_1r[i] = _quantile(self.data[0][:,i], 0.8413) - _quantile(self.data[0][:,i], 0.5)
+        #     sigma_2l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.0228)
+        #     sigma_2r[i] = _quantile(self.data[0][:,i], 0.9772) - _quantile(self.data[0][:,i], 0.5)
+        #     sigma_3l[i] = _quantile(self.data[0][:,i], 0.5) - _quantile(self.data[0][:,i], 0.0013)
+        #     sigma_3r[i] = _quantile(self.data[0][:,i], 0.9987) - _quantile(self.data[0][:,i], 0.5)
+
+        #new
+        bestFit = Chains.bestFit(self.data[0],best_type='mode',out_sigma=3,symmetry_error=False)
+        best_fit = bestFit[:,0]
+        sigma_1l, sigma_1r = bestFit[:,1], bestFit[:,2]
+        sigma_2l, sigma_2r = bestFit[:,3], bestFit[:,4]
+        sigma_3l, sigma_3r = bestFit[:,5], bestFit[:,6]
         
         # plot contours
         fig = plt.figure(figsize=((self.N-1)*2, (self.N-1)*2))#
@@ -1339,3 +1542,136 @@ class Contours:
         else:
             fig.subplots_adjust(wspace=layout_adjust[0],hspace=layout_adjust[1])
         return fig
+    
+    def __plot_1d_2(self, ax,X,bins,color,line_style,line_width,smooth,ticks_size,
+                    legend_label=None, legend=False,legend_colors=None,
+                    legend_size=None,equal_1d=False,std_P=1,pdf_method='2'):
+        
+        x, P = self.__pdf(X, bins, smooth, pdf_method=pdf_method)
+        if equal_1d:
+            P = std_P/max(P) * P
+        ax.plot(x, P, line_style, color=color, linewidth=line_width, label=legend_label)
+        
+        # if legend_size is None:
+        #     legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+        # legend_loc = 'best'
+        # ax.legend(legend_size)
+        
+        # add legend
+        if legend is True:
+            legend_loc = 'best'
+#            legend_loc = 'center'
+            if legend_size is None:
+                # legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+                legend_size = ticks_size * 1.20833
+            # ax.legend(bbox_to_anchor=(1, self.N), loc=legend_loc, borderaxespad=0., fontsize=legend_size)
+            
+            ax.legend(bbox_to_anchor=(1, 1), loc=legend_loc, borderaxespad=0., fontsize=legend_size)
+        return
+    
+    def plot_1d(self, bins=None,labels=None,colors=None,line_styles=None,
+                same_line_styles=True,sigma=2,smooth=3,minor_locator=True,
+                major_locator_N=None,minor_locator_N=None,ticks_size=None,
+                lims=None,line_width=None,
+                best_values=None,best_value_styles=None,best_value_colors=None,
+                show_best_value_lines=False,legend=False,legend_labels=None,
+                legend_size=None,equal_1d=True,pdf_method='2',subplots_adjust=True,
+                lat_n=3, panel_size=(6/1.2, 4.5/1.2), layout_adjust=[0.18, 0.18]):
+        '''
+        lat_n: The number of panels in latitude (or transverse) direction.
+        lon_n: The number of panels in longitude (or longitudinal) direction.
+        '''
+        if bins is None:
+            bins = 100
+        if labels is None:
+            labels = [r"$x_{%s}$"%i for i in range(self.N)]
+        if colors is None:
+#            colors = pl.fiducial_colors[:self.n]
+            colors = pl.get_fiducial_colors(self.n)
+        else:
+            colors = pl.makeList(colors)
+        if line_styles is None:
+#            line_styles = pl.fiducial_line_styles[:self.n]
+            line_styles = pl.get_fiducial_line_styles(self.n)
+        else:
+            line_styles = pl.makeList(line_styles)
+        if same_line_styles is True:
+            linestyles_2d = line_styles #[[m] for m in line_styles]
+        else:
+            linestyles_2d = ['-' for m in range(self.n)]
+        if layout_adjust is None:
+            layout_adjust = [0.025, 0.025]
+        smooth_1d = smooth
+        smooth_2d = smooth/2.0
+        std_P = self.__lims(bins, smooth_1d, pdf_method=pdf_method)[3]#max_P
+        max_Y = [i*1.0618 for i in std_P] # max_P = P*1.0618
+        if lims is None:
+            min_x, max_x = self.__lims(bins, smooth_1d, pdf_method=pdf_method)[:2]
+        else:
+            min_x, max_x = lims[0], lims[1]
+        if line_width is None:
+            line_width = 1.618
+        if sigma == 2:
+            levels = (0.6826, 0.9544)
+        elif sigma == 3:
+            levels = (0.6826, 0.9544, 0.9974)
+        if best_values is not None:
+            best_values = pl.makeListList(best_values)
+        if best_value_styles is None:
+            best_value_styles = ['o' for i in range(self.n)]
+        if best_value_colors is None:
+            best_value_colors = colors
+        else:
+            best_value_colors = pl.makeList(best_value_colors)
+        rotation = 0
+        if major_locator_N is None:
+            major_locator_N = 6.0
+        if minor_locator_N is None:
+            minor_locator_N = 10.0
+        if ticks_size is None:
+            ticks_size = 12
+        if legend_labels is None:
+            legend_labels = [r'$\rm Line\ %s$'%(i+1) for i in range(self.n)]            
+        
+        panel_n = self.N
+        if panel_n<lat_n:
+            lat_n = panel_n
+        lon_n = int(math.ceil(panel_n/float(lat_n)))
+        if len(layout_adjust)==2:
+            wspace, hspace = layout_adjust
+            left, bottom, right, top = 0, 0, 1, 1
+        elif len(layout_adjust)==6:
+            left, bottom, right, top, wspace, hspace = layout_adjust
+        
+        fig = plt.figure(figsize=(panel_size[0]*lat_n, panel_size[1]*lon_n))
+        fig.subplots_adjust(left=left,bottom=bottom,right=right,top=top,wspace=wspace,hspace=hspace)
+        for i in range(lon_n):
+            for j in range(lat_n):
+                if i*lat_n+j+1 > panel_n:
+                    break
+                idx = i*lat_n+j
+                xy_lims = [ min_x[idx], max_x[idx], 0, max_Y[idx] ]
+                ax = pls.PlotSettings().setting(location=[lon_n, lat_n, i*lat_n+j+1],lims=xy_lims,\
+                        labels=[labels[idx], r'${\rm P}($%s$)$'%labels[idx]],ticks_size=ticks_size,major_locator_length=None,\
+                        rotation=rotation,major_locator_N=major_locator_N,\
+                        minor_locator=minor_locator,minor_locator_N=minor_locator_N,\
+                        show_xticks=True,show_yticks=True,show_xticklabels=True,\
+                        show_yticklabels=True,show_xlabel=True,show_ylabel=True,old_ticksStyle=False,rightTopTicks=False)
+                # plot 1-D contours
+                for k in range(self.n):
+                    x, P = self.__pdf(self.data[k][:,idx], bins, smooth, pdf_method=pdf_method)
+                    if equal_1d:
+                        P = std_P[idx]/max(P) * P
+                    ax.plot(x, P, line_styles[k], color=colors[k], linewidth=line_width, label=legend_labels[k])
+                    if legend_size is None:
+                        # legend_size = ticks_size*(1+0.382) #ticks_size/0.618
+                        legend_size = ticks_size * 1.20833
+                    if legend:
+                        ax.legend(fontsize=legend_size)
+                        
+                    if show_best_value_lines is True:
+                        self.__intersecting_line(ax, [best_values[k][idx],best_values[k][idx]],\
+                                                 xy_lims[2:], best_value_colors[k])
+        return fig
+
+
